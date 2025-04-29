@@ -1,0 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class FeatureExtractor {
+    public static List<Double> extractFeatures(String text) {
+        List<Double> featurePercentages = new ArrayList<>();
+        featurePercentages.add(DiscountFeature.evaluate(text));
+        featurePercentages.add(KeywordFeature.evaluate(text));
+        featurePercentages.add(NumberFeature.evaluate(text)); 
+        featurePercentages.add(UnsubscribeFeature.evaluate(text)); 
+        featurePercentages.add(Links.evaluate(text));            
+        return featurePercentages;
+    }
+}
