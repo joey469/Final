@@ -1,0 +1,23 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmailEvaluator {
+    public static double evaluate(String emailText) {
+        List<Double> featurePercentages = new ArrayList<>();
+        featurePercentages.add(DiscountFeature.evaluate(emailText));
+        featurePercentages.add(KeywordFeature.evaluate(emailText));
+        featurePercentages.add(NumberFeature.evaluate(emailText));
+        featurePercentages.add(UnsubscribeFeature.evaluate(emailText));
+        featurePercentages.add(Links.evaluate(emailText));
+        for (double percentage : featurePercentages) {
+            if (percentage == 100.0) {
+                return 100.0;
+            }
+        }
+        double total = 0;
+        for (double percentage : featurePercentages) {
+            total += percentage;
+        }
+        return total / featurePercentages.size();
+    }
+}
