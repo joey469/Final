@@ -1,0 +1,8 @@
+import java.util.List;
+
+public class EmailClassifier {
+    public static int classifyEmail(List<Double> featurePercentages) {
+        double averagePercentage = featurePercentages.stream().mapToDouble(d -> d).average().orElse(0);
+        return averagePercentage > 25 ? 1 : 0;
+    }
+}
