@@ -1,0 +1,24 @@
+public class Links {
+    private static final int LINK_THRESHOLD = 1;
+    public static double evaluate(String text) {
+        String lowerText = text.toLowerCase();
+        int linkCount = 0;
+        while (lowerText.contains("http")) {
+            linkCount++;
+            lowerText = lowerText.replaceFirst("http", "");
+        }
+        while (lowerText.contains("https")) {
+            linkCount++;
+            lowerText = lowerText.replaceFirst("https", "");
+        }
+        while (lowerText.contains("url")) {
+            linkCount++;
+            lowerText = lowerText.replaceFirst("url", "");
+        }
+        if (linkCount > LINK_THRESHOLD) {
+            return 100.0;
+        }
+        double linkPercentage = (double) linkCount / text.length() * 100;
+        return linkPercentage;
+    }
+}
