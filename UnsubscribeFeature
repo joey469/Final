@@ -1,0 +1,26 @@
+public class UnsubscribeFeature {
+    private static final int UNSUBSCRIBE_THRESHOLD = 1;
+    public static double evaluate(String text) {
+        String lowerText = text.toLowerCase();
+        int clickHereCount = 0;
+        int unsubscribeCount = 0;
+        int hyperlinkCount = 0;
+        while (lowerText.contains("click here")) {
+            clickHereCount++;
+            lowerText = lowerText.replaceFirst("click here", "");
+        }
+        while (lowerText.contains("unsubscribe")) {
+            unsubscribeCount++;
+            lowerText = lowerText.replaceFirst("unsubscribe", "");
+        }
+        while (lowerText.contains("hyperlink")) {
+            hyperlinkCount++;
+            lowerText = lowerText.replaceFirst("hyperlink", "");
+        }
+        int minCount = Math.min(clickHereCount, Math.min(unsubscribeCount, hyperlinkCount));
+        if (minCount > UNSUBSCRIBE_THRESHOLD) {
+            return 100.0;
+        }
+        return minCount * 50;
+    }
+}
