@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+
+public class EmailReader {
+    private String filePath;
+    public EmailReader(String filePath) {
+        this.filePath = filePath;
+    }
+    public List<Email> readEmails() {
+        List<Email> emails = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            boolean firstLine = true;
+            while ((line = reader.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue;
+                }
+                String[] parts = line.split(",");
+                if (parts.length != 2) {
+                    continue;
+                }
+                String text = parts[0].trim();
+                int label;
+                try {
+                    label = Integer.parseInt(parts[1].trim());
+                    if (label != 0 && label != 1) {
+                        continue;
+                    }
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+                emails.add(new Email(text, label));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return emails;
+    }
+}
