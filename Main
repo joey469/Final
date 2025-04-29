@@ -1,0 +1,20 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        EmailReader emailReader = new EmailReader("SpamOrNotSpam.csv");
+        List<Email> emails = emailReader.readEmails();
+        if (emails.isEmpty()) {
+            System.out.println("No emails found in the file.");
+            return;
+        }
+        Random random = new Random();
+        Email randomEmail = emails.get(random.nextInt(emails.size()));
+        List<Double> features = FeatureExtractor.extractFeatures(randomEmail.getText());
+        int prediction = EmailClassifier.classifyEmail(features);
+        System.out.println(randomEmail.getText());
+        System.out.println("Prediction: " + (prediction == 1 ? "Spam" : "Ham"));
+        System.out.println("True Label: " + (randomEmail.getLabel() == 1 ? "Spam" : "Ham"));
+    }
+}
